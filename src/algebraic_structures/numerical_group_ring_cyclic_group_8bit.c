@@ -72,11 +72,18 @@ print_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring)
     }
 }
 
-void /* temp void */
-multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int y)
+void
+add_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int y, unsigned char *result)
 {
-    unsigned char result[group_ring->group_order];
+    for (unsigned int i = 0; i < group_ring->group_order; ++i)
+    {
+        result[i] = (group_ring->elements[x][i] + group_ring->elements[y][i]) % group_ring->ring_order;
+    }
+}
 
+void
+multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int y, unsigned char *result)
+{
     for (unsigned int i = 0; i < group_ring->group_order; ++i)
     {
         unsigned char coef = 0;
@@ -89,15 +96,6 @@ multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned i
 
         result[i] = coef % group_ring->ring_order;
     }
-
-    /*printf("\n");
-
-    for (unsigned int i = 0; i < group_ring->group_order; ++i)
-    {
-        printf("%u ", nll[i]);
-    }
-
-    printf("\n");*/
 }
 
 void
