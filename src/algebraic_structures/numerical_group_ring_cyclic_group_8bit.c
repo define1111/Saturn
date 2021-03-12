@@ -98,6 +98,32 @@ multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned i
     }
 }
 
+unsigned int
+result_to_index_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned char *result)
+{
+    unsigned int i = 0;
+    int flag = 0;
+
+    for (; i < group_ring->group_ring_order; ++i)
+    {
+        for (unsigned int j = 0; j < group_ring->group_order; ++j)
+        {
+            if (group_ring->elements[i][j] != result[j])
+            {
+                flag = 0;
+                break;
+            }
+            else
+            {
+                flag = 1;
+            }
+        }
+
+        if (flag)
+            return i;
+    }
+}
+
 void
 free_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring)
 {

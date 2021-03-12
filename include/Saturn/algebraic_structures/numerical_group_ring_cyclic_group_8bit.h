@@ -15,6 +15,7 @@ n_gr_ccl_8b_t init_n_gr_ccl_8b(unsigned char ring_order, unsigned char group_ord
 void print_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring);
 void add_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int y, unsigned char *result);
 void multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int y, unsigned char *result);
+unsigned int result_to_index_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned char *result);
 void free_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring);
 
 #endif
