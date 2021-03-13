@@ -1,7 +1,7 @@
 #ifndef _SENTRY_SATURN_SET_H_
 #define _SENTRY_SATURN_SET_H_
 
-typedef int T;
+typedef unsigned int T;
 
 #define CAPACITY_STEP (1024)
 

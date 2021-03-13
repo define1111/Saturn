@@ -3,9 +3,7 @@
 
 #include <math.h>
 
-/*#include "../../include/Saturn/algebraic_structures/permutation.h"*/
-
-/*#include "../../include/Saturn/algebraic_structures/numerical_group_ring_cyclic_group_8bit.h"*/
+/*#include <algebraic_structures/permutation.h>*/
 
 #include <algebraic_structures/numerical_group_ring_cyclic_group_8bit.h>
 
@@ -86,6 +84,8 @@ add_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int
 void
 multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned int y, unsigned char *result)
 {
+    /*sigma_arr = get_sigma_arr(group_ring->group_order);*/
+
     for (unsigned int i = 0; i < group_ring->group_order; ++i)
     {
         unsigned char coef = 0;
@@ -93,11 +93,13 @@ multy_elements_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned int x, unsigned i
         for (unsigned int j = 0; j < group_ring->group_order; ++j)
         {
             /*coef += group_ring->elements[x][j]*group_ring->elements[y][sigma_arr[i].p[j]];*/
-            coef += group_ring->elements[x][j]*group_ring->elements[y][((i - j) + group_ring->ring_order) % group_ring->ring_order];
+            coef += group_ring->elements[x][j]*group_ring->elements[y][((i - j) + group_ring->group_order) % group_ring->group_order];
         }
 
         result[i] = coef % group_ring->ring_order;
     }
+
+    /*free_p_arr(sigma_arr);*/
 }
 
 unsigned int
@@ -124,6 +126,8 @@ result_to_index_n_gr_ccl_8b(n_gr_ccl_8b_t *group_ring, unsigned char *result)
         if (flag)
             return i;
     }
+
+    return group_ring->group_ring_order + 1;
 }
 
 void

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../../include/Saturn/data_structures/set.h"
+#include <data_structures/set.h>
 
 set_t *
 init_set()
