@@ -5,7 +5,9 @@
 
 /*#include "../../include/Saturn/algebraic_structures/permutation.h"*/
 
-#include "../../include/Saturn/algebraic_structures/numerical_group_ring_cyclic_group_8bit.h"
+/*#include "../../include/Saturn/algebraic_structures/numerical_group_ring_cyclic_group_8bit.h"*/
+
+#include <algebraic_structures/numerical_group_ring_cyclic_group_8bit.h>
 
 /*permutation_t *sigma_arr = NULL;*/
 

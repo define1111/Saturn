@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../../include/Saturn/algebraic_structures/permutation.h"
+/*#include "../../include/Saturn/algebraic_structures/permutation.h"*/
+#include <algebraic_structures/permutation.h>
 
 permutation_t
 permutation_multy(const permutation_t *left, const permutation_t *right)

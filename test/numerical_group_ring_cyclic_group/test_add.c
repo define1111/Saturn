@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../include/Saturn/algebraic_structures/numerical_group_ring_cyclic_group_8bit.h"
+/*#include "../../include/Saturn/algebraic_structures/numerical_group_ring_cyclic_group_8bit.h"*/
+#include <algebraic_structures/numerical_group_ring_cyclic_group_8bit.h>
 
 int
 test_add_null(unsigned int group_order, unsigned int ring_order)
