@@ -1,21 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <algebraic_structures/numerical_group_ring_cyclic_group_8bit.h>
 #include <data_structures/set.h>
 
 /* temp */
 #define RING_ORDER (2)
-#define GROUP_ORDER (4)
+#define GROUP_ORDER (13)
 
-/* temp non-optimizated zero checker */
-int
-is_zero_result(unsigned char *result, unsigned int size)
+int 
+is_zero_result(unsigned char *result, size_t size)
 {
-    for (unsigned int i = 0; i < size; ++i)
-        if (result[i] != 0)
-            return 0;
-    return 1;
+    return result[0] == 0 && !memcmp(result, result + 1, size - 1);
 }
 
 int
@@ -33,18 +30,18 @@ main()
             /* if result is zero then i and j are zero divisors! */
             if (is_zero_result(result, GROUP_ORDER))
             {
-                /* temp non-optimizated set */
+                /*temp non-optimizated set*/
                 add_item_set(zero_divisors, i);
                 add_item_set(zero_divisors, j);
             }
         }
     }
 
-    print_n_gr_ccl_8b(&gr);
+    //print_n_gr_ccl_8b(&gr);
 
     free_n_gr_ccl_8b(&gr);
 
-    print_set(zero_divisors);
+    //print_set(zero_divisors);
 
     free_set(&zero_divisors);
 
