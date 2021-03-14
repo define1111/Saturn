@@ -3,17 +3,16 @@
 
 typedef unsigned int T;
 
-#define CAPACITY_STEP (1024)
-
-typedef struct set_tag
+struct set_tag
 {
-    T *data;
-    int size;
-    int capacity;
-} set_t;
+    T data;
+    struct set_tag *left;
+    struct set_tag *right;
+};
 
-set_t *init_set(void);
-void add_item_set(set_t *set, T value);
+typedef struct set_tag set_t;
+
+void add_item_set(set_t **root, T value);
 void print_set(set_t *set);
 void free_set(set_t **set);
 

@@ -7,7 +7,7 @@
 
 /* temp */
 #define RING_ORDER (2)
-#define GROUP_ORDER (13)
+#define GROUP_ORDER (8)
 
 int 
 is_zero_result(unsigned char *result, size_t size)
@@ -19,7 +19,7 @@ int
 main()
 {
     n_gr_ccl_8b_t gr = init_n_gr_ccl_8b(RING_ORDER, GROUP_ORDER);
-    set_t *zero_divisors = init_set();
+    set_t *zero_divisors = NULL;
     unsigned char result[GROUP_ORDER];
 
     for (unsigned int i = 2; i < gr.group_ring_order; ++i)
@@ -30,18 +30,17 @@ main()
             /* if result is zero then i and j are zero divisors! */
             if (is_zero_result(result, GROUP_ORDER))
             {
-                /*temp non-optimizated set*/
-                add_item_set(zero_divisors, i);
-                add_item_set(zero_divisors, j);
+                add_item_set(&zero_divisors, i);
+                add_item_set(&zero_divisors, j);
             }
         }
     }
 
-    //print_n_gr_ccl_8b(&gr);
+    print_n_gr_ccl_8b(&gr);
 
     free_n_gr_ccl_8b(&gr);
 
-    //print_set(zero_divisors);
+    print_set(zero_divisors);
 
     free_set(&zero_divisors);
 
