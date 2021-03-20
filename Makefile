@@ -10,6 +10,7 @@ SOURCE_FILES               += $(ROOT_SOURCE_DIR)/$(SOURCE_SUBDIR_ALG)/permutatio
 
 SOURCE_FILES               += $(ROOT_SOURCE_DIR)/$(SOURCE_SUBDIR_DATA)/set.c
 SOURCE_FILES               += $(ROOT_SOURCE_DIR)/$(SOURCE_SUBDIR_DATA)/bitset.c
+SOURCE_FILES               += $(ROOT_SOURCE_DIR)/$(SOURCE_SUBDIR_DATA)/bitset_tree.c
 
 TEST_GR_OP_FILES           += $(ROOT_TEST_DIR)/numerical_group_ring_cyclic_group/test_add.c
 
