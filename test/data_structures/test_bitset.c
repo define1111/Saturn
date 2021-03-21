@@ -39,8 +39,16 @@ factorial(unsigned int n)
 void
 test_bitset_tree()
 {
-    tree_t tree = init_bitset_tree(3, 5);
+    tree_t tree = init_bitset_tree(4, 5);
     print_bitset_tree(&tree);
+    tree_iterator_t it = init_bitset_tree_iterator(&tree);
+    printf("Iterator:\n");
+    while (it.node)
+    {
+        print_bitset(&it.bitset);
+        next_iterator_pos(&it);
+    }
+    free_bitset_tree_iterator(&it);
     free_bitset_tree(&tree);
 }
 

@@ -12,12 +12,23 @@ typedef struct tree_node {
 typedef struct tree
 {
     tree_node_t *root;
+    unsigned int one_n;
     unsigned int depth;
-    unsigned int leaves_n;
 } tree_t;
+
+typedef struct tree_iterator {
+    bitset_t bitset;
+    unsigned int depth;
+    tree_t *tree;
+    tree_node_t *node;
+} tree_iterator_t;
 
 tree_t init_bitset_tree(int k, int n);
 void print_bitset_tree(tree_t *tree);
 void free_bitset_tree(tree_t *tree);
+tree_iterator_t init_bitset_tree_iterator(tree_t *tree);
+unsigned int *get_nums_by_iterator(tree_iterator_t *it);
+void next_iterator_pos(tree_iterator_t *it);
+void free_bitset_tree_iterator(tree_iterator_t *iter);
 
 #endif

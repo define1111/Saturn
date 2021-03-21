@@ -1,4 +1,5 @@
 #include <data_structures/bitset_tree.h>
+#include <assert.h>
 
 static tree_node_t *
 create_node(int k, int level, int n, tree_node_t *parent)
@@ -27,7 +28,7 @@ init_bitset_tree(int k, int n)
 {
     tree_t tree;
     tree.root = create_node(k, 0, n, NULL);
-    tree.leaves_n = 0;
+    tree.one_n = k;
     tree.depth = n;
     return tree;
 }
@@ -81,6 +82,133 @@ free_bitset_tree(tree_t *tree)
         return;
     free_tree_node(tree->root);
     tree->root = NULL;
-    tree->leaves_n = 0;
+    tree->one_n = 0;
     tree->depth = 0;
+}
+
+tree_iterator_t
+init_bitset_tree_iterator(tree_t *tree)
+{
+    tree_iterator_t it;
+    it.bitset = init_bitset(tree->depth);
+    it.tree = tree;
+    it.node = NULL;
+    tree_node_t *first_leaf = tree->root;
+    it.depth = 0;
+    while (first_leaf && (first_leaf->left || first_leaf->right)){
+        if (first_leaf->left) {
+            BITSET(it.bitset.data, it.depth);
+            first_leaf = first_leaf->left;
+        } else if (first_leaf->right) {
+            first_leaf = first_leaf->right;
+        }
+        it.depth++;
+    }
+    it.node = first_leaf;
+    return it;
+}
+
+void
+free_bitset_tree_iterator(tree_iterator_t *it)
+{
+    free_bitset(&it->bitset);
+    it->node = NULL;
+    it->tree = NULL;
+    it->depth = 0;
+}
+
+unsigned int *
+get_nums_by_iterator(tree_iterator_t *it)
+{
+    if (!it->tree || !it->node)
+        return NULL;
+    unsigned int k = it->tree->one_n;
+    unsigned int *nums = calloc(k, sizeof(unsigned int));
+    size_t pos = 0;
+    for (size_t i = 0; i < it->bitset.length; ++i)
+    {
+        if (BITTEST(it->bitset.data, i))
+        {
+            nums[pos] = i;
+            pos++;
+        }
+    }
+    assert(pos == k && "Length of a number array must be equal to `k`.");
+    return nums;
+}
+
+static void
+go_left(tree_iterator_t *it, tree_node_t **last_node, tree_node_t **new_node)
+{
+    BITSET(it->bitset.data, it->depth);
+    it->depth++;
+    *last_node = *new_node;
+    *new_node = (*new_node)->left;
+    /*printf("Left, new depth: %u. ", it->depth);
+    print_bitset(&it->bitset);*/
+}
+
+static void
+go_right(tree_iterator_t *it, tree_node_t **last_node, tree_node_t **new_node)
+{
+    BITCLEAR(it->bitset.data, it->depth);
+    it->depth++;
+    *last_node = *new_node;
+    *new_node = (*new_node)->right;
+    /*printf("Right, new depth: %u. ", it->depth);
+    print_bitset(&it->bitset);*/
+}
+
+static void
+go_up(tree_iterator_t *it, tree_node_t **last_node, tree_node_t **new_node)
+{
+    if ((*new_node)->parent) {
+        assert(it->depth > 0 && "Leaf depth must be positive.");
+        it->depth--;
+        BITCLEAR(it->bitset.data, it->depth);
+    }
+    *last_node = *new_node;
+    *new_node = (*new_node)->parent;
+    /*printf("Up, new depth: %u. ", it->depth);
+    print_bitset(&it->bitset);*/
+}
+
+void
+next_iterator_pos(tree_iterator_t *it)
+{
+    if (!it->node)
+        return;
+    assert(it->depth > 0 && "Leaf depth must be positive.");
+    it->depth--;
+    BITCLEAR(it->bitset.data, it->depth);
+    tree_node_t *last_node = it->node;
+    tree_node_t *new_node = it->node->parent;
+    while (new_node && (new_node->left || new_node->right))
+    {
+        if (new_node->left) {
+            if (new_node->left == last_node)
+            {
+                if (new_node->right)
+                    go_right(it, &last_node, &new_node);
+                else
+                    go_up(it, &last_node, &new_node);
+            }
+            else if (new_node->parent == last_node)
+            {
+                go_left(it, &last_node, &new_node);
+            }
+            else
+            {
+                go_up(it, &last_node, &new_node);
+            }
+        }
+        else
+        {
+            if (new_node->right == last_node)
+                go_up(it, &last_node, &new_node);
+            else
+                go_right(it, &last_node, &new_node);
+        }
+    }
+    it->node = new_node;
 }
