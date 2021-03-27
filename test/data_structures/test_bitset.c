@@ -37,9 +37,33 @@ factorial(unsigned int n)
 }
 
 void
+test_specific_tree(int k, int n)
+{
+    printf("Init new tree (%d, %d).\n", k, n);
+    tree_t tree = init_bitset_tree_iteratively(k, n);
+    print_bitset_tree_word(&tree);
+    tree_iterator_t it = init_bitset_tree_iterator(&tree);
+    printf("Iterator:\n");
+    while (it.node)
+    {
+        print_bitset(&it.bitset);
+        set_t *set = get_nums_by_iterator_with_offset(&it);
+        printf("Set: ");
+        print_set(set);
+        printf("\n");
+        next_iterator_pos(&it);
+        free_set(&set);
+    }
+    free_bitset_tree_iterator(&it);
+    free_bitset_tree(&tree);
+    printf("\n");
+}
+
+void
 test_bitset_tree()
 {
-    tree_t tree = init_bitset_tree(4, 5);
+    printf("Recursively:\n");
+    tree_t tree = init_bitset_tree(3, 5);
     print_bitset_tree(&tree);
     tree_iterator_t it = init_bitset_tree_iterator(&tree);
     printf("Iterator:\n");
@@ -50,6 +74,12 @@ test_bitset_tree()
     }
     free_bitset_tree_iterator(&it);
     free_bitset_tree(&tree);
+
+    printf("Iteratively:\n");
+    test_specific_tree(2, 4);
+    test_specific_tree(4, 4);
+    test_specific_tree(0, 4);
+    test_specific_tree(0, 0);
 }
 
 int

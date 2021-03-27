@@ -15,7 +15,7 @@ init_bitset(unsigned int length)
 }
 
 void 
-print_bitset(bitset_t *bitset)
+print_bitset(const bitset_t *bitset)
 {
     for (unsigned int i = 0; i < bitset->length; ++i)
     {

@@ -22,7 +22,7 @@ add_item_set(set_t **root, T data)
 }
 
 void
-print_set(set_t *root)
+print_set(const set_t *root)
 {
     if (root != NULL)
     {
