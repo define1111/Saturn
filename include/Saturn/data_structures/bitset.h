@@ -17,7 +17,7 @@ typedef struct bitset_tag
 #define BITNSLOTS(nb) ((nb + CHAR_BIT - 1) / CHAR_BIT)
 
 bitset_t init_bitset(unsigned int length);
-void print_bitset(bitset_t *bitset);
+void print_bitset(const bitset_t *bitset);
 void free_bitset(bitset_t *bitset);
 
 #endif

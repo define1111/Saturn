@@ -13,7 +13,7 @@ struct set_tag
 typedef struct set_tag set_t;
 
 void add_item_set(set_t **root, T value);
-void print_set(set_t *set);
+void print_set(const set_t *set);
 void free_set(set_t **set);
 
 #endif
