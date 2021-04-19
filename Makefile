@@ -17,23 +17,29 @@ TEST_GR_OP_FILES           += $(ROOT_TEST_DIR)/numerical_group_ring_cyclic_group
 
 TEST_BITSET_FILES          = $(ROOT_TEST_DIR)/data_structures/test_bitset.c
 
+TEST_SET_FILES             = $(ROOT_TEST_DIR)/data_structures/test_set.c
+
 TARGET_ZERO_DIVISORS_FILES += $(ROOT_SOURCE_DIR)/target/search_zero_divisors.c
 
 OBJECT_FILES                         := $(SOURCE_FILES:.o=.c)
 OBJECT_TEST_GR_OP_FILES              := $(TEST_GR_OP_FILES:.o=.c)
 OBJECT_TEST_BITSET_FILES             := $(TEST_BITSET_FILES:.o=.c)
+OBJECT_TEST_SET_FILES                := $(TEST_SET_FILES:.o=.c)
 OBJECT_TARGET_ZERO_DIVISORS_FILES    := $(TARGET_ZERO_DIVISORS_FILES:.o=.c)
 
 %.o: %.c
 	$(CC) $(CLAGS) -c $< -o $@
 
 CC = gcc
-CFLAGS = -O3 -Wall -Wextra -I $(ROOT_INCLUDE_DIR) -lm
+CFLAGS = -Wall -Wextra -I $(ROOT_INCLUDE_DIR) -lm -g
 
 test_gr_op: $(OBJECT_FILES) $(OBJECT_TEST_GR_OP_FILES)
 	$(CC) $^ -o $@ $(CFLAGS)
 
 test_bitset: $(OBJECT_FILES) $(OBJECT_TEST_BITSET_FILES)
+	$(CC) $^ -o $@ $(CFLAGS)
+
+test_set: $(OBJECT_FILES) $(OBJECT_TEST_SET_FILES)
 	$(CC) $^ -o $@ $(CFLAGS)
 
 target_zero_divisors: $(OBJECT_FILES) $(OBJECT_TARGET_ZERO_DIVISORS_FILES)
