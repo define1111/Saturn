@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <data_structures/bitset.h>
 #include <data_structures/bitset_tree.h>
@@ -59,17 +60,27 @@ test_specific_tree(int k, int n)
     printf("\n");
 }
 
+char check_bitset(bitset_t bitset, unsigned expected)
+{
+    size_t n = 0;
+    for (size_t i = 0; i < bitset.length; ++i)
+        n += (BITTEST(bitset.data, i) > 0);
+    return n == expected;
+}
+
 void
 test_bitset_tree()
 {
-    printf("Recursively:\n");
-    tree_t tree = init_bitset_tree(3, 5);
-    print_bitset_tree(&tree);
+    size_t k = 4, n = 6;
+    tree_t tree = init_bitset_tree_iteratively(k, n);
+    //print_bitset_tree(&tree);
     tree_iterator_t it = init_bitset_tree_iterator(&tree);
+    print_bitset_tree_word(&tree);
     printf("Iterator:\n");
     while (it.node)
     {
         print_bitset(&it.bitset);
+        assert(check_bitset(it.bitset, k) && "Invalid count of ones!");
         next_iterator_pos(&it);
     }
     free_bitset_tree_iterator(&it);

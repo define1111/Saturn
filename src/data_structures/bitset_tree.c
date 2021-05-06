@@ -123,6 +123,7 @@ print_bitset_tree(const tree_t *tree)
 static void
 print_bitset_tree_word_rec(const tree_node_t *node, char letter)
 {
+    //printf("%c [%p]\n", letter, node);
     printf("%c", letter);
     if (node->left)
         print_bitset_tree_word_rec(node->left, 'L');
@@ -134,6 +135,7 @@ print_bitset_tree_word_rec(const tree_node_t *node, char letter)
 void
 print_bitset_tree_word(const tree_t *tree)
 {
+    printf("Bitset tree word:\n");
     if (tree->root)
     {
         print_bitset_tree_word_rec(tree->root, 'B');
@@ -171,18 +173,23 @@ init_bitset_tree_iterator(tree_t *tree)
     it.node = NULL;
     tree_node_t *first_leaf = tree->root;
     it.depth = 0;
-    while (first_leaf && (first_leaf->left || first_leaf->right)){
+    while (first_leaf && (first_leaf->left || first_leaf->right))
+    {
         assert(it.depth <= tree->depth &&
             "Invalid depth on tree initialization.");
-        if (first_leaf->left) {
+        if (first_leaf->left)
+        {
             BITSET(it.bitset.data, it.depth);
             first_leaf = first_leaf->left;
-        } else if (first_leaf->right) {
+        }
+        else if (first_leaf->right)
+        {
             first_leaf = first_leaf->right;
         }
         it.depth++;
     }
     it.node = first_leaf;
+    //printf("Leaf address: %p\n", it.node);
     //printf("Depth: %u\n", it.depth);
     return it;
 }
@@ -264,8 +271,8 @@ next_iterator_pos(tree_iterator_t *it)
         it->node = NULL;
         return;
     }
+    BITCLEAR(it->bitset.data, it->depth - 1);
     it->depth--;
-    BITCLEAR(it->bitset.data, it->depth);
     tree_node_t *last_node = it->node;
     tree_node_t *new_node = it->node->parent;
     while (new_node && (new_node->left || new_node->right))
@@ -278,7 +285,7 @@ next_iterator_pos(tree_iterator_t *it)
             {
                 if (new_node->right)
                 {
-                    for (unsigned int i = it->tree->depth - it->depth; i < it->tree->depth; ++i) {
+                    for (unsigned int i = it->depth; i < it->tree->depth; ++i) {
                         BITCLEAR(it->bitset.data, i);
                     }
                     go_right(it, &last_node, &new_node);
@@ -305,4 +312,5 @@ next_iterator_pos(tree_iterator_t *it)
         }
     }
     it->node = new_node;
+    //printf("Current address: %p\n", it->node);
 }
