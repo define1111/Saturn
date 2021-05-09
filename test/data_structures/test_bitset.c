@@ -116,9 +116,11 @@ void test_matrix() {
             next_set_iterator_pos(&S1);
         }
         next_iterator_pos(&S);
+        free_set(&set);
         printf("-----\n");
     }
     free_bitset_tree_iterator(&S);
+    free_bitset_tree(&tree);
 }
 
 int
