@@ -55,15 +55,14 @@ set_iterator_t
 init_set_iterator(set_t *set)
 {
     set_iterator_t it;
-    if (set == NULL) {
+    if (set == NULL)
+    {
         it.node = NULL;
         return it;
     }
     it.node = set;
     while (it.node->left)
-    {
         it.node = it.node->left;
-    }
     it.prev_node = NULL;
     return it;
 }
@@ -109,9 +108,21 @@ next_set_iterator_pos(set_iterator_t *it)
                 go_up(it);
             }
         }
-        else
+        else if (it->prev_node == it->node->right)
         {
             go_up(it);
+        }
+        else
+        {
+            it->prev_node = it->node;
+            if (it->node->left)
+            {
+                it->node = it->node->left;
+            }
+            else
+            {
+                it->node = it->node->right;
+            }
         }
     }
 }

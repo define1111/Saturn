@@ -93,6 +93,34 @@ test_bitset_tree()
     test_specific_tree(0, 0);
 }
 
+void test_matrix() {
+    size_t k = 4, n = 6;
+    tree_t tree = init_bitset_tree_iteratively(k, n);
+    tree_iterator_t S = init_bitset_tree_iterator(&tree);
+    while (S.node)
+    {
+        set_t *set = get_nums_by_iterator_with_offset(&S);
+        printf("Set: ");
+        print_set(set);
+        printf("\n");
+        set_iterator_t S1 = init_set_iterator(set);
+        while (S1.node) {
+            unsigned int data_i = S1.node->data;
+            set_iterator_t S2 = S1;
+            while (S2.node) {
+                unsigned int data_j = S2.node->data;
+                printf("(%u, %u)", data_i, data_j);
+                next_set_iterator_pos(&S2);
+            }
+            printf("\n");
+            next_set_iterator_pos(&S1);
+        }
+        next_iterator_pos(&S);
+        printf("-----\n");
+    }
+    free_bitset_tree_iterator(&S);
+}
+
 int
 main()
 {
@@ -101,6 +129,8 @@ main()
     test_set_bitset();
 
     test_bitset_tree();
+
+    test_matrix();
 
     return 0;
 }
