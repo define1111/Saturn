@@ -19,6 +19,7 @@ typedef struct set_iterator
 } set_iterator_t;
 
 void add_item_set(set_t **root, T value);
+int contains(const set_t *set, T value);
 void print_set(const set_t *set);
 void free_set(set_t **set);
 set_iterator_t init_set_iterator(set_t *set);

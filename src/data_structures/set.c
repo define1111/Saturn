@@ -27,6 +27,20 @@ void add_item_set(set_t **root, T data)
     add_item_set_rec(root, data, NULL);
 }
 
+int contains(const set_t *set, T value)
+{
+    if (set != NULL)
+    {
+        if (set->data == value)
+            return 1;
+        else if (set->data > value)
+            return contains(set->left, value);
+        else if (set->data < value)
+            return contains(set->right, value);
+    }
+    return 0;
+}
+
 void
 print_set(const set_t *root)
 {
