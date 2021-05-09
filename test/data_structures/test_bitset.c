@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <data_structures/bitset.h>
 #include <data_structures/bitset_tree.h>
@@ -59,17 +60,27 @@ test_specific_tree(int k, int n)
     printf("\n");
 }
 
+char check_bitset(bitset_t bitset, unsigned expected)
+{
+    size_t n = 0;
+    for (size_t i = 0; i < bitset.length; ++i)
+        n += (BITTEST(bitset.data, i) > 0);
+    return n == expected;
+}
+
 void
 test_bitset_tree()
 {
-    printf("Recursively:\n");
-    tree_t tree = init_bitset_tree(3, 5);
-    print_bitset_tree(&tree);
+    size_t k = 4, n = 6;
+    tree_t tree = init_bitset_tree_iteratively(k, n);
+    //print_bitset_tree(&tree);
     tree_iterator_t it = init_bitset_tree_iterator(&tree);
+    print_bitset_tree_word(&tree);
     printf("Iterator:\n");
     while (it.node)
     {
         print_bitset(&it.bitset);
+        assert(check_bitset(it.bitset, k) && "Invalid count of ones!");
         next_iterator_pos(&it);
     }
     free_bitset_tree_iterator(&it);
@@ -82,6 +93,36 @@ test_bitset_tree()
     test_specific_tree(0, 0);
 }
 
+void test_matrix() {
+    size_t k = 4, n = 6;
+    tree_t tree = init_bitset_tree_iteratively(k, n);
+    tree_iterator_t S = init_bitset_tree_iterator(&tree);
+    while (S.node)
+    {
+        set_t *set = get_nums_by_iterator_with_offset(&S);
+        printf("Set: ");
+        print_set(set);
+        printf("\n");
+        set_iterator_t S1 = init_set_iterator(set);
+        while (S1.node) {
+            unsigned int data_i = S1.node->data;
+            set_iterator_t S2 = S1;
+            while (S2.node) {
+                unsigned int data_j = S2.node->data;
+                printf("(%u, %u)", data_i, data_j);
+                next_set_iterator_pos(&S2);
+            }
+            printf("\n");
+            next_set_iterator_pos(&S1);
+        }
+        next_iterator_pos(&S);
+        free_set(&set);
+        printf("-----\n");
+    }
+    free_bitset_tree_iterator(&S);
+    free_bitset_tree(&tree);
+}
+
 int
 main()
 {
@@ -90,6 +131,8 @@ main()
     test_set_bitset();
 
     test_bitset_tree();
+
+    test_matrix();
 
     return 0;
 }

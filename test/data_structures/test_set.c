@@ -6,11 +6,12 @@ void
 test_set()
 {
     set_t *set = NULL;
-    add_item_set(&set, 5);
-    add_item_set(&set, 2);
     add_item_set(&set, 1);
-    add_item_set(&set, 7);
+    add_item_set(&set, 2);
+    add_item_set(&set, 3);
     add_item_set(&set, 4);
+    add_item_set(&set, 5);
+    add_item_set(&set, 0);
 
     set_iterator_t it = init_set_iterator(set);
     //int i = 0;
@@ -24,6 +25,7 @@ test_set()
     }
     printf("\n-----\n");
     print_set(set);
+    printf("\n");
 }
 
 int
