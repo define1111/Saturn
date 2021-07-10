@@ -84,7 +84,7 @@ init_bitset_tree_iteratively(int k, int n)
             total += 1;
         }
     }
-    printf("Total node count: %d\n", total);
+    //printf("Total node count: %d\n", total);
     return tree;
 }
 

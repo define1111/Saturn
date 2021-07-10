@@ -6,8 +6,8 @@
 #include <data_structures/set.h>
 
 /* temp */
-#define RING_ORDER (7)
-#define GROUP_ORDER (7)
+#define RING_ORDER (2)
+#define GROUP_ORDER (3)
 
 int 
 is_zero_result(unsigned char *result, size_t size)

@@ -21,11 +21,14 @@ TEST_SET_FILES             = $(ROOT_TEST_DIR)/data_structures/test_set.c
 
 TARGET_ZERO_DIVISORS_FILES += $(ROOT_SOURCE_DIR)/target/search_zero_divisors.c
 
+TARGET_IDEALS_FILES		   += $(ROOT_SOURCE_DIR)/target/search_ideals.c
+
 OBJECT_FILES                         := $(SOURCE_FILES:.o=.c)
 OBJECT_TEST_GR_OP_FILES              := $(TEST_GR_OP_FILES:.o=.c)
 OBJECT_TEST_BITSET_FILES             := $(TEST_BITSET_FILES:.o=.c)
 OBJECT_TEST_SET_FILES                := $(TEST_SET_FILES:.o=.c)
 OBJECT_TARGET_ZERO_DIVISORS_FILES    := $(TARGET_ZERO_DIVISORS_FILES:.o=.c)
+OBJECT_TARGET_IDEALS_FILES           := $(TARGET_IDEALS_FILES:.o=.c)
 
 %.o: %.c
 	$(CC) $(CLAGS) -c $< -o $@
@@ -43,4 +46,7 @@ test_set: $(OBJECT_FILES) $(OBJECT_TEST_SET_FILES)
 	$(CC) $^ -o $@ $(CFLAGS)
 
 target_zero_divisors: $(OBJECT_FILES) $(OBJECT_TARGET_ZERO_DIVISORS_FILES)
+	$(CC) $^ -o $@ $(CFLAGS)
+
+target_ideals: $(OBJECT_FILES) $(OBJECT_TARGET_IDEALS_FILES)
 	$(CC) $^ -o $@ $(CFLAGS)
